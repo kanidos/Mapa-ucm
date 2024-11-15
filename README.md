@@ -30,7 +30,7 @@ Con esta aplicación de mapa interactivo, los usuarios podrán acceder fácilmen
 4. **Visualización de Información Adicional de Puntos de Interés:**  Permitir el acceso a detalles adicionales sobre cada punto de interés, incluyendo imágenes, descripciones, servicios disponibles, horarios de atención y otros datos relevantes para la toma de decisiones informadas.
 5. **Filtrar por Categorías:** Incorporar filtros que permitan personalizar la experiencia en el mapa, mostrando solo ciertos tipos de puntos de interés como facultades, bibliotecas o áreas de comida, activables o desactivables según las necesidades del usuario.
 
-### Aspectos restantes
+### Características a futuro
 
 1. **Diseñar un Mapa Interactivo:** Falta ingresar más datos a la base de datos, para tener acceso a más puntos relevantes del campus.
 2. **Implementar un Sistema de Búsqueda Rápida:** Falta implementar sugerencias en tiempo real en la barra de búsqueda, para autocompletar las búsquedas.
