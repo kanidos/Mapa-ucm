@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, View, Text, Image, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Image, ActivityIndicator} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Modalize } from 'react-native-modalize';
@@ -7,6 +7,7 @@ import { getLocations } from '../http';
 import { cleanMapStyle } from '../components/cleanMap';
 import BarraBusqueda from '../components/BarraBusqueda';
 import { CategoryIcon } from '../components/MarkerIcons';
+
 
 export default function HomeScreen({ route }) {
   const [location, setLocation] = useState(null);
@@ -54,7 +55,7 @@ export default function HomeScreen({ route }) {
 
   useEffect(() => {
     if (selectedLocation) {
-      modalizeRef.current?.open();  // Abre el modal después de que se haya actualizado el estado
+      modalizeRef.current?.open();
     }
   }, [selectedLocation]);
 
@@ -83,13 +84,13 @@ export default function HomeScreen({ route }) {
             <MapView
               style={styles.map}
               region={{
-              latitude: location?.latitude || -35.43558628681802,
-              longitude: location?.longitude || -71.61994639627318,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01,
+                latitude: -35.43558628681802,
+                longitude: -71.61994639627318,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
               }}
               showsUserLocation={true}
-              followsUserLocation={true} // Asegura que el mapa siga la ubicación
+              followsUserLocation={true}
               customMapStyle={cleanMapStyle}
             >
               {filteredLocations.map((loc) => (
@@ -103,7 +104,6 @@ export default function HomeScreen({ route }) {
                 />
               ))}
             </MapView>
-
           )}
         </>
       )}
@@ -111,7 +111,7 @@ export default function HomeScreen({ route }) {
         <View style={styles.panel}>
           {selectedLocation ? (
             <>
-              <Image source={{ uri: selectedLocation.imagen}} style={styles.image}/>
+              <Image source={{ uri: selectedLocation.imagen }} style={styles.image} />
               <Text style={styles.panelTitle}>{selectedLocation.nombre}</Text>
               <Text style={styles.panelDescription}>{selectedLocation.descripcion}</Text>
             </>

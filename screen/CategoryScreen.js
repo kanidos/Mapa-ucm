@@ -13,11 +13,12 @@ export default function CategoryScreen({ route, navigation }) {
           key={loc.id}
           style={styles.locationItem}
           onPress={() =>
-            navigation.navigate('Home', {
+            navigation.navigate('Mapa ucm', {
               latitude: loc.latitud,
               longitude: loc.longitud,
-              locationName: loc.nombre,
-              locationDescription: loc.descripcion,
+              nombre: loc.nombre,
+              descripcion: loc.descripcion,
+              imagen: loc.imagen
             })
           }
         >

@@ -23,8 +23,8 @@ export default function DrawerNavigation() {
   }, []);
 
   return (
-    <Drawer.Navigator initialRouteName="Home">
-      <Drawer.Screen name="Home" component={HomeScreen} />
+    <Drawer.Navigator initialRouteName="Mapa ucm">
+      <Drawer.Screen name="Mapa ucm" component={HomeScreen} />
       {categories.map((category, index) => (
         <Drawer.Screen
           key={index}
