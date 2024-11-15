@@ -18,7 +18,6 @@ export async function getLocations() {
 
     for (const key in response.data) {
       const item = response.data[key];
-      // Verifica si el item es válido antes de acceder a sus propiedades
       if (item && item.nombre && item.descripcion && item.latitud && item.longitud) {
         const obj = {
           id: key,
@@ -39,6 +38,6 @@ export async function getLocations() {
     return locations; 
   } catch (error) {
     console.error('Error al obtener las ubicaciones:', error);
-    return []; // Retorna un array vacío en caso de error
+    return [];
   }
 }
