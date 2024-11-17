@@ -6,7 +6,6 @@ export async function getLocations() {
   try {
     const response = await axios.get(`${URL}/ubicacion.json`);
 
-    // Imprime los datos crudos obtenidos para inspeccionar su estructura
     console.log('Datos crudos obtenidos:', response.data);
 
     if (!response.data) {

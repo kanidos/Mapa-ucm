@@ -49,7 +49,7 @@ export default function HomeScreen({ route }) {
     }
   }, [route.params]);
 
-  const handleLocationSelect = (location) => {
+  const handleLocationSelect = (location ) => { 
     setSelectedLocation(location);
   };
 
@@ -107,7 +107,7 @@ export default function HomeScreen({ route }) {
           )}
         </>
       )}
-      <Modalize ref={modalizeRef} snapPoint={300}>
+      <Modalize adjustToContentHeight childrenStyle={{ height: 370 }} ref={modalizeRef} snapPoint={300}>
         <View style={styles.panel}>
           {selectedLocation ? (
             <>
@@ -143,31 +143,44 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   panel: {
-    justifyContent: 'flex-start',
-    padding: 20,
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    height: 300,
-  },
-  panelTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  panelDescription: {
-    fontSize: 16,
-    color: '#333',
-  },
-  panelPlaceholder: {
-    fontSize: 16,
-    color: '#888',
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-    marginTop: 20,
-    borderRadius: 10,
-  },
-});
+      justifyContent: 'flex-start',
+      padding: 20,
+      backgroundColor: '#ffffff',
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      height: 300,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.2,
+      shadowRadius: 15,
+    },
+    panelTitle: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 15,
+      color: '#2c3e50', 
+    },
+    panelDescription: {
+      fontSize: 16,
+      color: '#555', 
+      lineHeight: 22, 
+    },
+    panelPlaceholder: {
+      fontSize: 16,
+      color: '#aaa', 
+      fontStyle: 'italic', 
+    },
+    image: {
+      width: '100%',
+      height: 200,
+      resizeMode: 'cover',
+      marginTop: 15,
+      borderRadius: 15,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.3,
+      shadowRadius: 10,
+      elevation: 5, 
+    },
+  });
+  

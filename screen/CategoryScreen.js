@@ -33,13 +33,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#f9f9f9', 
   },
   title: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
+    marginBottom: 15,
+    color: '#333', 
   },
   locationItem: {
-    padding: 10,
-    borderBottomWidth: 1,
+    padding: 15,
+    marginBottom: 10,
+    backgroundColor: '#fff', 
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ddd', 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2, 
   },
 });
