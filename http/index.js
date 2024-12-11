@@ -5,9 +5,6 @@ const URL = 'https://mapa-ucm-default-rtdb.firebaseio.com';
 export async function getLocations() {
   try {
     const response = await axios.get(`${URL}/ubicacion.json`);
-
-    console.log('Datos crudos obtenidos:', response.data);
-
     if (!response.data) {
       console.log('No se encontraron datos en la base de datos.');
       return [];
@@ -33,10 +30,9 @@ export async function getLocations() {
       }
     }
 
-    console.log('Datos obtenidos:', locations);
+  
     return locations; 
   } catch (error) {
-    console.error('Error al obtener las ubicaciones:', error);
     return [];
   }
 }

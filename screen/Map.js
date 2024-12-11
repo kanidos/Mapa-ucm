@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, View, Text, Image, ActivityIndicator} from 'react-native';
+import React, { useEffect, useState, useRef } from 'react'; 
+import { StyleSheet, View, Text, Image, ActivityIndicator, Linking, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Modalize } from 'react-native-modalize';
@@ -7,7 +7,6 @@ import { getLocations } from '../http';
 import { cleanMapStyle } from '../components/cleanMap';
 import BarraBusqueda from '../components/BarraBusqueda';
 import { CategoryIcon } from '../components/MarkerIcons';
-
 
 export default function HomeScreen({ route }) {
   const [location, setLocation] = useState(null);
@@ -18,6 +17,7 @@ export default function HomeScreen({ route }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   const modalizeRef = useRef(null);
+  const mapRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -32,8 +32,12 @@ export default function HomeScreen({ route }) {
       setLocation(currentLocation.coords);
 
       const fetchedLocations = await getLocations();
-      setLocations(fetchedLocations);
-      setFilteredLocations(fetchedLocations);
+      if (Array.isArray(fetchedLocations)) {
+        setLocations(fetchedLocations);
+        setFilteredLocations(fetchedLocations);
+      } else {
+        console.error('getLocations no devolvió un array válido');
+      }
 
       setLoading(false);
     })();
@@ -41,16 +45,35 @@ export default function HomeScreen({ route }) {
 
   useEffect(() => {
     if (route.params?.latitude && route.params?.longitude) {
-      setLocation({
-        latitude: route.params.latitude,
-        longitude: route.params.longitude,
-      });
+      const { latitude, longitude } = route.params;
+      setLocation({ latitude, longitude });
       setSelectedLocation(route.params);
+
+      mapRef.current?.animateToRegion(
+        {
+          latitude,
+          longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        },
+        1000
+      );
     }
   }, [route.params]);
 
-  const handleLocationSelect = (location ) => { 
-    setSelectedLocation(location);
+  const handleLocationSelect = (location) => {
+    if (selectedLocation?.id !== location.id) {
+      setSelectedLocation(location);
+      mapRef.current?.animateToRegion(
+        {
+          latitude: location.latitud,
+          longitude: location.longitud,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        },
+        1000
+      );
+    }
   };
 
   useEffect(() => {
@@ -71,17 +94,20 @@ export default function HomeScreen({ route }) {
     setFilteredLocations(filtered);
   };
 
+  
+
   return (
     <View style={styles.container}>
       <BarraBusqueda onSearch={handleSearch} />
       {loading ? (
-        <ActivityIndicator size="large" color="#007BFF" />
+        <ActivityIndicator size="large" color="#0046A5" />
       ) : (
         <>
           {errorMsg ? (
             <Text style={styles.errorText}>{errorMsg}</Text>
           ) : (
             <MapView
+              ref={mapRef}
               style={styles.map}
               region={{
                 latitude: -35.43558628681802,
@@ -98,7 +124,6 @@ export default function HomeScreen({ route }) {
                   key={loc.id}
                   coordinate={{ latitude: loc.latitud, longitude: loc.longitud }}
                   title={loc.nombre}
-                  description={loc.descripcion}
                   icon={CategoryIcon[loc.categoria]}
                   onPress={() => handleLocationSelect(loc)}
                 />
@@ -107,18 +132,28 @@ export default function HomeScreen({ route }) {
           )}
         </>
       )}
-      <Modalize adjustToContentHeight childrenStyle={{ height: 370 }} ref={modalizeRef} snapPoint={300}>
-        <View style={styles.panel}>
+      <Modalize
+        ref={modalizeRef}
+        scrollViewProps={{
+          showsVerticalScrollIndicator: false,
+        }}
+        adjustToContentHeight
+      >
+        <View style={{ padding: 20 }}>
           {selectedLocation ? (
             <>
-              <Image source={{ uri: selectedLocation.imagen }} style={styles.image} />
-              <Text style={styles.panelTitle}>{selectedLocation.nombre}</Text>
-              <Text style={styles.panelDescription}>{selectedLocation.descripcion}</Text>
+              <Image source={{ uri: selectedLocation.imagen }} style={styles.imageEnhanced} />
+              <Text style={styles.panelTitleEnhanced}>{selectedLocation.nombre}</Text>
+              <Text style={styles.panelSubtitle}>{selectedLocation.descripcion}</Text>
+              <TouchableOpacity
+                style={styles.googleMapsButtonEnhanced}
+                onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${selectedLocation.latitud},${selectedLocation.longitud}`)}
+              >
+                <Text style={styles.googleMapsButtonTextEnhanced}>Abrir en Google Maps</Text>
+              </TouchableOpacity>
             </>
           ) : (
-            <Text style={styles.panelPlaceholder}>
-              Selecciona una ubicación para ver más detalles
-            </Text>
+            <Text style={styles.panelPlaceholder}>Selecciona una ubicación para ver más detalles</Text>
           )}
         </View>
       </Modalize>
@@ -131,56 +166,61 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: '#F7F9FC',
   },
   map: {
     width: '100%',
     height: '100%',
   },
   errorText: {
-    color: 'red',
+    color: '#FF0000',
     fontSize: 16,
     textAlign: 'center',
     padding: 20,
   },
-  panel: {
-      justifyContent: 'flex-start',
-      padding: 20,
-      backgroundColor: '#ffffff',
-      borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
-      height: 300,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 5 },
-      shadowOpacity: 0.2,
-      shadowRadius: 15,
-    },
-    panelTitle: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 15,
-      color: '#2c3e50', 
-    },
-    panelDescription: {
-      fontSize: 16,
-      color: '#555', 
-      lineHeight: 22, 
-    },
-    panelPlaceholder: {
-      fontSize: 16,
-      color: '#aaa', 
-      fontStyle: 'italic', 
-    },
-    image: {
-      width: '100%',
-      height: 200,
-      resizeMode: 'cover',
-      marginTop: 15,
-      borderRadius: 15,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
-      shadowRadius: 10,
-      elevation: 5, 
-    },
-  });
-  
+  imageEnhanced: {
+    width: '100%',
+    height: 180,
+    borderRadius: 15,
+    marginBottom: 15,
+  },
+  panelTitleEnhanced: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#0046A5',
+  },
+  panelSubtitle: {
+    fontSize: 16,
+    color: '#6c757d',
+    marginBottom: 20,
+    lineHeight: 22,
+  },
+  googleMapsButtonEnhanced: {
+    marginTop: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    backgroundColor: '#0046A5',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1,
+    elevation: 0,
+    shadowOpacity: 0,
+  },
+  googleMapsButtonTextEnhanced: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  panelPlaceholder: {
+    fontSize: 16,
+    color: '#888',
+    textAlign: 'center',
+  },
+});
+
+
+
+
+

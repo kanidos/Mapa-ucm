@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     left: 10,
-    right: 10,
+    right: 60,
     zIndex: 1,
   },
   searchbar: {
