@@ -139,23 +139,28 @@ export default function HomeScreen({ route }) {
         }}
         adjustToContentHeight
       >
-        <View style={{ padding: 20 }}>
-          {selectedLocation ? (
-            <>
-              <Image source={{ uri: selectedLocation.imagen }} style={styles.imageEnhanced} />
-              <Text style={styles.panelTitleEnhanced}>{selectedLocation.nombre}</Text>
-              <Text style={styles.panelSubtitle}>{selectedLocation.descripcion}</Text>
-              <TouchableOpacity
-                style={styles.googleMapsButtonEnhanced}
-                onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${selectedLocation.latitude},${selectedLocation.longitude}`)}
-              >
-                <Text style={styles.googleMapsButtonTextEnhanced}>Abrir en Google Maps</Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <Text style={styles.panelPlaceholder}>Selecciona una ubicación para ver más detalles</Text>
-          )}
-        </View>
+        {selectedLocation && (
+          <View style={{ padding: 20 }}>
+            <Image source={{ uri: selectedLocation.imagen }} style={styles.imageEnhanced} />
+            <Text style={styles.panelTitleEnhanced}>{selectedLocation.nombre}</Text>
+            <Text style={styles.panelSubtitle}>{selectedLocation.descripcion}</Text>
+            <TouchableOpacity
+              style={styles.googleMapsButtonEnhanced}
+              onPress={async () => {
+              const url = `https://www.google.com/maps?q=${selectedLocation.latitude},${selectedLocation.longitude}`;
+              const supported = await Linking.canOpenURL(url);
+
+            if (supported) {
+            await Linking.openURL(url);
+            } else {
+              alert('No se pudo abrir el enlace.');
+            }
+            }}
+            >
+              <Text style={styles.googleMapsButtonTextEnhanced}>Ver en Google Maps</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </Modalize>
     </View>
   );
