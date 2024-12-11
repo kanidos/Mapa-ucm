@@ -20,8 +20,8 @@ export async function getLocations() {
           categoria: item.categoria,
           descripcion: item.descripcion,
           imagen: item.imagen,
-          latitud: item.latitud,
-          longitud: item.longitud,
+          latitude: item.latitud,
+          longitude: item.longitud,
           nombre: item.nombre,
         };
         locations.push(obj);

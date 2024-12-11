@@ -36,8 +36,8 @@ const BarraBusqueda = () => {
     setSearchQuery(location.nombre);
     setFilteredLocations([]);
     navigation.navigate('Mapa ucm', {
-      latitude: location.latitud,
-      longitude: location.longitud,
+      latitude: location.latitude,
+      longitude: location.longitude,
       nombre: location.nombre,
       descripcion: location.descripcion,
       imagen: location.imagen,
@@ -82,22 +82,27 @@ const styles = StyleSheet.create({
   searchbar: {
     borderRadius: 25,
     elevation: 4,
-    backgroundColor: '#fff',
+    backgroundColor: '#F5F5F5', // Fondo gris claro
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
     paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#007AFF', // Borde azul
   },
   inputStyle: {
     fontSize: 16,
+    color: '#333', // Texto oscuro
   },
   suggestionsList: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
     borderRadius: 8,
     elevation: 4,
     marginTop: 5,
     maxHeight: 150,
+    borderColor: '#007AFF', // Borde azul
+    borderWidth: 1,
   },
   suggestionItem: {
     padding: 10,

@@ -14,15 +14,15 @@ export default function CategoryScreen({ route, navigation }) {
           style={styles.locationItem}
           onPress={() =>
             navigation.navigate('Mapa ucm', {
-              latitude: loc.latitud,
-              longitude: loc.longitud,
+              latitude: loc.latitude,
+              longitude: loc.longitude,
               nombre: loc.nombre,
               descripcion: loc.descripcion,
               imagen: loc.imagen
             })
           }
         >
-          <Text>{loc.nombre} - {loc.descripcion}</Text>
+          <Text>{loc.nombre}</Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -33,24 +33,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f9f9f9', 
+    backgroundColor: '#F5F5F5', // Fondo gris claro para armonía
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 15,
-    color: '#333', 
+    color: '#007AFF', // Azul para resaltar el título
   },
   locationItem: {
     padding: 15,
     marginBottom: 10,
-    backgroundColor: '#fff', 
+    backgroundColor: '#FFF', // Fondo blanco para las tarjetas
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#ddd', 
+    borderColor: '#007AFF', // Borde azul para destacar las tarjetas
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 5,
-    elevation: 2, 
+    elevation: 3, // Efecto de elevación más definido
+  },
+  locationText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#333', // Texto en color oscuro para legibilidad
   },
 });
+

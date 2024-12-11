@@ -66,8 +66,8 @@ export default function HomeScreen({ route }) {
       setSelectedLocation(location);
       mapRef.current?.animateToRegion(
         {
-          latitude: location.latitud,
-          longitude: location.longitud,
+          latitude: location.latitude,
+          longitude: location.longitude,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         },
@@ -122,7 +122,7 @@ export default function HomeScreen({ route }) {
               {filteredLocations.map((loc) => (
                 <Marker
                   key={loc.id}
-                  coordinate={{ latitude: loc.latitud, longitude: loc.longitud }}
+                  coordinate={{ latitude: loc.latitude, longitude: loc.longitude }}
                   title={loc.nombre}
                   icon={CategoryIcon[loc.categoria]}
                   onPress={() => handleLocationSelect(loc)}
@@ -147,7 +147,7 @@ export default function HomeScreen({ route }) {
               <Text style={styles.panelSubtitle}>{selectedLocation.descripcion}</Text>
               <TouchableOpacity
                 style={styles.googleMapsButtonEnhanced}
-                onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${selectedLocation.latitud},${selectedLocation.longitud}`)}
+                onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${selectedLocation.latitude},${selectedLocation.longitude}`)}
               >
                 <Text style={styles.googleMapsButtonTextEnhanced}>Abrir en Google Maps</Text>
               </TouchableOpacity>
